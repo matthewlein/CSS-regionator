@@ -83,20 +83,18 @@
     
         // get the x and y pos, normalized by getOffset
         getPos : function (event) {
-            
-            var mouseX = event.pageX - helpers.getOffSet(event.target).left;
-            var mouseY = event.pageY - helpers.getOffSet(event.target).top;
 
+            if ( event.target.offsetParent ) {
+                mouseX = event.pageX - helpers.getOffSet(event.target).left;
+                mouseY = event.pageY - helpers.getOffSet(event.target).top;
+            } else {
+                mouseX = event.pageX;
+                mouseY = event.pageY
+            }
+            
             return {
                 x: mouseX,
                 y: mouseY
-            };
-        },
-        
-        getPagePos : function(){
-            return {
-                x: event.pageX,
-                y: event.pageY
             };
         },
     
@@ -216,7 +214,7 @@
         
         onPointMove : function(event) {
             
-            var pos = helpers.getPagePos(event);
+            var pos = helpers.getPos(event);
             console.log(pos.x, pos.y);
             
             if ( selectedPoint ) {
